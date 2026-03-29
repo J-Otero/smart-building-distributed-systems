@@ -1,0 +1,51 @@
+/*
+ * Student: Jefferson Ferreira
+ * ID: 21223467
+ * Subject: Distributed Systems
+ * Lecturer: Catriona Nic Lughadha
+ * National College of Ireland
+ CA - Climate Action
+ */
+
+syntax = "proto3";
+package smartbuilding.naming;
+
+option java_multiple_files = true;
+option java_package = "ie.nci.smartbuilding.naming";
+option java_outer_classname = "NamingProto";
+
+message ServiceInstance {
+  string service_name = 1;
+  string host = 2;
+  int32 port = 3;
+  string instance_id = 4;
+  int64 registered_at_ms = 5;
+}
+
+message RegisterRequest {
+  ServiceInstance instance = 1;
+}
+
+message RegisterReply {
+  bool success = 1;
+  string message = 2;
+}
+
+message DiscoverRequest {
+  string service_name = 1;
+}
+
+message DiscoverReply {
+  repeated ServiceInstance instances = 1;
+}
+
+message WatchRequest {
+  string service_name = 1;
+}
+
+service NamingService {
+  rpc Register (RegisterRequest) returns (RegisterReply);
+  rpc Discover (DiscoverRequest) returns (DiscoverReply);
+  rpc WatchServices (WatchRequest) returns (stream ServiceInstance);
+}
+
