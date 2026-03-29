@@ -1,0 +1,57 @@
+/*
+ * Student: Jefferson Ferreira
+ * ID: 21223467
+ * Subject: Distributed Systems
+ * Lecturer: Catriona Nic Lughadha
+ * National College of Ireland
+ CA - Climate Action
+ Proto files
+ */
+
+syntax = "proto3";
+package smartbuilding.energy;
+
+option java_multiple_files = true;
+option java_package = "ie.nci.smartbuilding.energy";
+option java_outer_classname = "EnergyProto";
+
+message DeviceId {
+  string device_id = 1;
+}
+
+message DeviceCommand {
+  string device_id = 1;
+  string action = 2;
+  string requested_by = 3;
+}
+
+message CommandResult {
+  bool success = 1;
+  string message = 2;
+}
+
+message DeviceStatus {
+  string device_id = 1;
+  string state = 2;
+  float watts = 3;
+  int64 timestamp_ms = 4;
+}
+
+message UsageSample {
+  string device_id = 1;
+  float watts = 2;
+  int64 timestamp_ms = 3;
+}
+
+message UsageSummary {
+  int32 samples = 1;
+  float avg_watts = 2;
+  float peak_watts = 3;
+  float total_kwh = 4;
+}
+
+service EnergyService {
+  rpc ControlDevice (DeviceCommand) returns (CommandResult);
+  rpc GetDeviceStatus (DeviceId) returns (DeviceStatus);
+  rpc ReportUsage (stream UsageSample) returns (UsageSummary);
+}
