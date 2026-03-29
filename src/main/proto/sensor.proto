@@ -1,0 +1,38 @@
+/*
+ * Student: Jefferson Ferreira
+ * ID: 21223467
+ * Subject: Distributed Systems
+ * Lecturer: Catriona Nic Lughadha
+ * National College of Ireland
+ CA - Climate Action
+ Proto files
+ */
+
+syntax = "proto3";
+package smartbuilding.sensor;
+
+option java_multiple_files = true;
+option java_package = "ie.nci.smartbilding.sensor";
+option java_outer_classname = "SensorProto";
+
+message ReadingRequest {
+  string room_id = 1;
+}
+
+message StreamRequest {
+  string room_id = 1;
+  int32 interval_seconds = 2;
+}
+
+message Reading {
+  string room_id = 1;
+  float temperature_c = 2;
+  float humidity = 3;
+  bool occupied = 4;
+  int64 timestamp_ms = 5;
+}
+
+service SensorService {
+  rpc GetCurrentReading (ReadingRequest) returns (Reading);
+  rpc StreamReadings (StreamRequest) returns (stream Reading);
+}
