@@ -1,0 +1,56 @@
+/*
+ * Student: Jefferson Ferreira
+ * ID: 21223467
+ * Subject: Distributed Systems
+ * Lecturer: Catriona Nic Lughadha
+ * National College of Ireland
+ CA - Climate Action
+ Proto files
+ */
+
+syntax = "proto3";
+package smartbuilding.advisor;
+
+import "google/protobuf/empty.proto";
+
+option java_multiple_files = true;
+option java_package = "ie.nci.smartbuilding.advisor";
+option java_outer_classname = "AdvisorProto";
+
+message SolarStatus {
+  float solar_watts = 1;
+  float battery_percent = 2;
+  int64 timestamp_ms = 3;
+}
+
+message EnergyBudgetRequest {
+  string device_id = 1;
+  float watts_needed = 2;
+  int32 duration_minutes = 3;
+}
+
+message EnergyBudgetReply {
+  bool approved = 1;
+  string reason = 2;
+  float allocated_watts = 3;
+}
+
+message BuildingEvent {
+  string room_id = 1;
+  string type = 2;
+  string details = 3;
+  string timestamp_ms = 4;
+}
+
+message ClimateAlert {
+  string severity = 1;
+  string message = 2;
+  string suggested_action = 3;
+  int64 timestamp_ms = 4;
+}
+
+service AdvisorService {
+  rpc GetSolarStatus (google.protobuf.Empty) returns (SolarStatus);
+  rpc RequestEnergyBudget (EnergyBudgetRequest) returns (EnergyBudgetReply);
+  rpc Monitor (stream BuildingEvent) returns (stream ClimateAlert);
+}
