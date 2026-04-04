@@ -19,7 +19,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class NamingServiceImpl extends NamingServiceGrpc.NamingServiceImplBase {
     private final Map<String, List<ServiceInstance>> registry
-            = new ConcurrentHashMap;
+            = new ConcurrentHashMap<>();
 
     private final List<StreamObserver<ServiceInstance>> watchers
             = new CopyOnWriteArrayList<>();
@@ -30,11 +30,10 @@ public class NamingServiceImpl extends NamingServiceGrpc.NamingServiceImplBase {
         ServiceInstance instance = request.getInstance();
         String name = instance.getServiceName();
 
-        registry.computeIfAbsent(name,
-                k -> new CopyOnWriteArrayList<>()).add(instance);
+        registry.computeIfAbsent(name, k -> new CopyOnWriteArrayList<>()).add(instance);
         System.out.println("[NamingService] Registered: " + name + "@" + instance.getHost() + ":" + instance.getPort());
 
-        for (StreamerObserver<ServiceInstance> watcher : waatchers) {
+        for (StreamObserver<ServiceInstance> watcher : watchers) {
             try {
                 watcher.onNext(instance);
             } catch (Exception e) {
@@ -70,8 +69,8 @@ public class NamingServiceImpl extends NamingServiceGrpc.NamingServiceImplBase {
                 .addAllInstances(found)
                 .build();
 
-        responseOberserver.onNext(reply);
-        responseOberserver.onCompleted(reply);
+        responseObserver.onNext(reply);
+        responseObserver.onCompleted();
 
     }
 

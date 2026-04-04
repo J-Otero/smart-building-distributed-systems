@@ -12,7 +12,7 @@ syntax = "proto3";
 package smartbuilding.sensor;
 
 option java_multiple_files = true;
-option java_package = "ie.nci.smartbilding.sensor";
+option java_package = "ie.nci.smartbuilding.sensor";
 option java_outer_classname = "SensorProto";
 
 message ReadingRequest {

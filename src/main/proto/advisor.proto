@@ -39,7 +39,7 @@ message BuildingEvent {
   string room_id = 1;
   string type = 2;
   string details = 3;
-  string timestamp_ms = 4;
+  int64 timestamp_ms = 4;
 }
 
 message ClimateAlert {

@@ -10,8 +10,8 @@
 
 package ie.nci.smartbuilding.naming;
 
-import.io.grpc.Server;
-import.io.grpc.ServerBuilder;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
 
 public class NamingServer {
 
